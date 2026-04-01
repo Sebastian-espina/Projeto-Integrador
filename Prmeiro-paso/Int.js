@@ -1,12 +1,10 @@
 
-let usuarios = []
- 
-const dados = localStorage.getItem('usuarios')
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || []
 
-if (dados) {
-    usuarios = JSON.parse(dados)
-    mostrarUsuarios()
-}
+
+let publicaciones = JSON.parse(localStorage.getItem('publicaciones')) || []
+
+
 
 function criarUsuario() {
     const input = document.getElementById('iusu')
@@ -24,6 +22,8 @@ function criarUsuario() {
     mostrarUsuarios()
     input.value = ''
 
+    criarPost(nome)
+
 }
 
 function mostrarUsuarios() {
@@ -36,3 +36,38 @@ function mostrarUsuarios() {
         lista.appendChild(li)
     })
 }
+
+function criarPost(usuario) {
+    const mensagens = [
+        'Oí, eu sou novo por aqui',
+        'Como vocês estão?',
+        'testando essa plataforma',
+        'Alguem mais aqui?'
+    ]
+
+    const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)]
+
+    publicaciones.push({
+        usuario: usuario,
+        texto: mensagemAleatoria,
+        hackeado: false
+    })
+
+    localStorage.setItem('publicaciones', JSON.stringify(publicaciones))
+
+    mostrarPosts()
+}
+
+function mostrarPosts(){
+    const lista = document.getElementById('listaPosts')
+    lista.innerHTML = ''
+
+    publicaciones.forEach(post => {
+        const li = document.createElement('li')
+        li.textContent = post.usuario + ': ' + post.texto
+        lista.appendChild(li)
+    })
+}
+
+mostrarUsuarios()
+mostrarPosts()
