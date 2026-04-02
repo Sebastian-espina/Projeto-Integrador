@@ -4,6 +4,7 @@ let usuarios = JSON.parse(localStorage.getItem('usuarios')) || []
 
 let publicaciones = JSON.parse(localStorage.getItem('publicaciones')) || []
 
+let hacker = null
 
 
 function criarUsuario() {
@@ -67,6 +68,19 @@ function mostrarPosts(){
         li.textContent = post.usuario + ': ' + post.texto
         lista.appendChild(li)
     })
+}
+
+function escolherHacker(){
+    if (usuarios.length === 0 ) return
+
+    const index = Math.floor(Math.random() * usuarios.length)
+    hacker = usuarios[index].nome 
+    
+    console.log('hacker elegido:', hacker) // solo para prueba
+}
+
+if (usuarios.length >= 3 && !hacker) {
+    escolherHacker()
 }
 
 mostrarUsuarios()
